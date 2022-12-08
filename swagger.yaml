@@ -496,6 +496,9 @@ components:
     ChatMessage:
       type: object
       properties:
+        id:
+          type: string
+          example: 63906043c0e7d90577cd928zo
         user:
           $ref: '#/components/schemas/ChatUser'
         message:
