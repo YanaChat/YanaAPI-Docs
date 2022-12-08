@@ -66,6 +66,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  /user:
+    get:
+      tags:
+        - User
+      summary: Retrieves profile information
+      description: Retrieves profile information about the user
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '400':
+          description: Bad token or unknown user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /user/logout:
     post:
       tags:
@@ -332,6 +351,30 @@ components:
           type: string
           description: "Raw token"
           example: "1edd37d1df049e2f705516800a708863ecf408dda9ab618d2fac65e14b2610b0fd5a6ab6d9a22010451b1f4d9667f457"
+    UserProfile:
+      type: object
+      properties:
+        email:
+          type: string
+          description: "Account email address"
+          example: "john.doe@example.com"
+        username:
+          type: string
+          description: "Account username"
+          example: "johndoe"
+        created_at:
+          type: string
+          description: "Account creation date"
+          example: "2022-12-07T09:43:31.945Z"
+        picture_url:
+          type: string
+          description: "URL of account profile picture"
+          example: "http://cdn.yana.chat/1edd37d1df049e2f70551680"
+        permissions:
+          type: array
+          items:
+            type: string
+            example: "generateQR"
     GenerateQRRequest:
       type: object
       properties:
