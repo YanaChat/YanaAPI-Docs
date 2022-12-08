@@ -72,6 +72,8 @@ paths:
         - User
       summary: Retrieves profile information
       description: Retrieves profile information about the user
+      security:
+        - bearerAuth: []
       responses:
         '200':
           description: Successful operation
