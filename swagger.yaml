@@ -72,8 +72,6 @@ paths:
         - User
       summary: Retrieves profile information
       description: Retrieves profile information about the user
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: Successful operation
@@ -146,6 +144,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  /chats/create:
+    put:
+      tags:
+        - Chats
+      summary: Create a text channel
+      description: Create a text channel
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatCreateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatCreateReply'
+        '400':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /chats/{chatId}:
     get:
       tags:
@@ -174,7 +199,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
-  /chats/send:
+    delete:
+      tags:
+        - Chats
+      summary: Delete a text channel
+      description: Delete a text channel
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: chatId
+          schema:
+            type: string
+          required: true
+          description: ID of chat
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
     post:
       tags:
         - Chats
@@ -182,6 +229,13 @@ paths:
       description: Send a message in chat
       security:
         - bearerAuth: []
+      parameters:
+        - in: path
+          name: chatId
+          schema:
+            type: string
+          required: true
+          description: ID of chat
       requestBody:
         content:
           application/json:
@@ -201,57 +255,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
-  /chats/create:
-    put:
-      tags:
-        - Chats
-      summary: Create a text channel
-      description: Create a text channel
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ChatCreateRequest'
-        required: true
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ChatCreateReply'
-        '400':
-          description: Input error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-  /chats/delete:
-    delete:
-      tags:
-        - Chats
-      summary: Delete a text channel
-      description: Delete a text channel
-      security:
-        - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ChatDeleteRequest'
-        required: true
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Input error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-  /chats/member:
+  /chats/{chatId}/member/{userId}:
     put:
       tags:
         - Chats
@@ -259,12 +263,19 @@ paths:
       description: Add member in text channel
       security:
         - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ChatAddMemberRequest'
-        required: true
+      parameters:
+        - in: path
+          name: chatId
+          schema:
+            type: string
+          required: true
+          description: ID of chat
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of user account
       responses:
         '200':
           description: Successful operation
@@ -283,12 +294,19 @@ paths:
       description: Remove a member from text channel
       security:
         - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ChatDeleteMemberRequest'
-        required: true
+      parameters:
+        - in: path
+          name: chatId
+          schema:
+            type: string
+          required: true
+          description: ID of chat
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of user account
       responses:
         '200':
           description: Successful operation
@@ -385,24 +403,6 @@ components:
           items:
             type: string
             example: "6390834cdaeda0edab3649ad"
-    ChatAddMemberRequest:
-      type: object
-      properties:
-        chat_id:
-          type: string
-          example: '6390834cdaeda0edab3649ad'
-        user_id:
-          type: string
-          example: '638e0c3988ccec6261a8318d'
-    ChatDeleteMemberRequest:
-      type: object
-      properties:
-        chat_id:
-          type: string
-          example: '6390834cdaeda0edab3649ad'
-        user_id:
-          type: string
-          example: '638e0c3988ccec6261a8318d'
     ChatCreateRequest:
       type: object
       properties:
@@ -410,12 +410,6 @@ components:
           type: string
           example: 'Example title'
     ChatCreateReply:
-      type: object
-      properties:
-        chat_id:
-          type: string
-          example: '6390834cdaeda0edab3649ad'
-    ChatDeleteRequest:
       type: object
       properties:
         chat_id:
@@ -433,9 +427,6 @@ components:
     ChatMessageSendRequest:
       type: object
       properties:
-        chat_id:
-          type: string
-          example: '639080bf5be6d64d45547834'
         message:
           type: string
           example: 'Example message'
