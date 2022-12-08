@@ -125,7 +125,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
-  /chats/messages:
+  /chats/{chatId}:
     get:
       tags:
         - Chats
@@ -133,12 +133,13 @@ paths:
       description: Retrieves all messages in a chat
       security:
         - bearerAuth: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ChatMessageListRequest'
-        required: true
+      parameters:
+        - in: path
+          name: chatId
+          schema:
+            type: string
+          required: true
+          description: ID of chat
       responses:
         '200':
           description: Successful operation
