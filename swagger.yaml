@@ -85,6 +85,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  /user/update/password:
+    post:
+      tags:
+        - User
+      summary: Update user password
+      description: Update user password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePasswordQuery'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad token or unknown user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /user/logout:
     post:
       tags:
@@ -360,6 +381,17 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    UpdatePasswordQuery:
+      type: object
+      properties:
+        current_password:
+          type: string
+          description: "Current user password"
+          example: "my_old_password"
+        new_password:
+          type: string
+          description: "New user password"
+          example: "my_new_password"
     GenerateQRReply:
       type: object
       properties:
