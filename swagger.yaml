@@ -138,6 +138,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  /user/update/profile-picture:
+    post:
+      tags:
+        - User (Authenticated)
+      summary: Update user profile picture
+      description: Update user profile picture
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+        required: true
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Syntax error or too long bio
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /user/update/password:
     post:
       tags:
