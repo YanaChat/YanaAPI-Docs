@@ -607,6 +607,10 @@ components:
     UserProfileSelf:
       type: object
       properties:
+        id:
+          type: string
+          description: "Account user id"
+          example: "dda9ab618d2fac65e14b2610b0fd"
         username:
           type: string
           description: "Account username"
@@ -639,6 +643,10 @@ components:
     UserProfileOther:
       type: object
       properties:
+        id:
+          type: string
+          description: "Account user id"
+          example: "dda9ab618d2fac65e14b2610b0fd"
         username:
           type: string
           description: "Account username"
