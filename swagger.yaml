@@ -115,6 +115,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+    delete:
+      tags:
+        - User (Authenticated)
+      summary: Delete user account
+      description: Delete user account (needs `deleteUser` permission)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of user account
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /user/{userId}/suspend:
+    post:
+      tags:
+        - User (Authenticated)
+      summary: Suspend or resume user account access
+      description: Suspend or resume user account access (needs `suspendUser` permission)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of user account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SuspendUserQuery'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /user/update/bio:
     post:
       tags:
@@ -495,6 +547,13 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    SuspendUserQuery:
+      type: object
+      properties:
+        state:
+          type: boolean
+          description: "Ban or not the account"
+          example: true
     UpdatePasswordQuery:
       type: object
       properties:
