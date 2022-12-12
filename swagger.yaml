@@ -45,6 +45,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  /user/confirm-email:
+    post:
+      tags:
+        - User (Unauthenticated)
+      summary: Confirm email
+      description: Confirm email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/confirm-email-query'
+        required: true
+      responses:
+        '400':
+          description: Bad token or invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /user/register:
     put:
       tags:
@@ -596,6 +615,13 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    confirm-email-query:
+      type: object
+      properties:
+        token:
+          type: string
+          description: "Email confirmation token"
+          example: "77c799c70436ce52b23dd5f9a6ea55c7d3510074ea9b9693ecc1ea5a898aa1ebe45c3ec9758c1ee0c454dc2c7deaade4"
     SuspendUserQuery:
       type: object
       properties:
@@ -823,6 +849,11 @@ components:
         token:
           type: string
           example: 'XXXXXXXXXXXXXX.XXXXXXXXXXXXXXXXXXXX.XXXXXXXXXXXXXX'
+          description: JWT token (1 day expiry)
+        id:
+          type: string
+          description: User identification
+          example: '639080bf5be6d64d45547834'
     register-query:
       type: object
       properties:
