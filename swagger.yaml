@@ -377,34 +377,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
-  /chats/{chatId}/info:
-    get:
-      tags:
-        - Chats
-      summary: Retrieves information about a text channel
-      description: Retrieves information about a text channel
-      security:
-        - bearerAuth: []
-      parameters:
-        - in: path
-          name: chatId
-          schema:
-            type: string
-          required: true
-          description: ID of chat
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ChatInfo'
-        '400':
-          description: Input error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
     delete:
       tags:
         - Chats
@@ -455,6 +427,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ChatMessageSendReply'
+        '400':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /chats/{chatId}/info:
+    get:
+      tags:
+        - Chats
+      summary: Retrieves information about a text channel
+      description: Retrieves information about a text channel
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: chatId
+          schema:
+            type: string
+          required: true
+          description: ID of chat
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatInfo'
         '400':
           description: Input error
           content:
