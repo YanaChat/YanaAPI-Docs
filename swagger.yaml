@@ -377,6 +377,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  /chats/{chatId}/info:
+    get:
+      tags:
+        - Chats
+      summary: Retrieves information about a text channel
+      description: Retrieves information about a text channel
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: chatId
+          schema:
+            type: string
+          required: true
+          description: ID of chat
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatInfo'
+        '400':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
     delete:
       tags:
         - Chats
@@ -683,6 +711,35 @@ components:
         chat_id:
           type: string
           example: '6390834cdaeda0edab3649ad'
+    ChatProfileInfo:
+      type: object
+      properties:
+        username:
+          type: string
+          example: 'Example username'
+        picture_url:
+          type: string
+          example: 'http://cdn.yanachat.fr/6390834cdaeda0edab3649ad.png'
+        bio:
+          type: string
+          example: 'Example biography'
+    ChatInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '6390834cdaeda0edab3649ad'
+        title:
+          type: string
+          example: 'Example title'
+        moderators:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatProfileInfo'
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChatProfileInfo'
     ChatMessageSendReply:
       type: object
       properties:
