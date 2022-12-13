@@ -64,6 +64,51 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  /user/forgot-password:
+    post:
+      tags:
+        - User (Unauthenticated)
+      summary: Send an email for password reset
+      description: Send an email for password reset
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordQuery'
+        required: true
+      responses:
+        '400':
+          description: Bad token or invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /user/forgot-password/{token}:
+    post:
+      tags:
+        - User (Unauthenticated)
+      summary: Changes password after password reset email
+      description: Changes password after password reset email
+      parameters:
+        - in: path
+          name: token
+          schema:
+            type: string
+          required: true
+          description: Token received by email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordQuery'
+        required: true
+      responses:
+        '400':
+          description: Bad token or invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /user/register:
     put:
       tags:
@@ -640,6 +685,20 @@ components:
           type: string
           description: "New user password"
           example: "my_new_password"
+    ForgotPasswordQuery:
+      type: object
+      properties:
+        email:
+          type: string
+          description: "Email address"
+          example: "email"
+    ResetPasswordQuery:
+      type: object
+      properties:
+        password:
+          type: string
+          description: "New password"
+          example: "MyNewPasswordHere1@"
     UpdateBioQuery:
       type: object
       properties:
