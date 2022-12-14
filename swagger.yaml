@@ -365,6 +365,93 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  /permission/{userId}:
+    get:
+      tags:
+        - Permission
+      summary: List all permissions of an user
+      description: List all permissions of an user
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of user account
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation  
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionResult' 
+        '400':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /permission/{userId}/{name}:
+    put:
+      tags:
+        - Permission
+      summary: Add permission to an user
+      description: Add permission to an user
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of user account
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+          description: Permission name
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation  
+        '400':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    delete:
+      tags:
+        - Permission
+      summary: Delete permission of an user
+      description: Delete permission of an user
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of user account
+        - in: path
+          name: name
+          schema:
+            type: string
+          required: true
+          description: Permission name
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation  
+        '400':
+          description: Input error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /chats:
     get:
       tags:
@@ -667,6 +754,22 @@ components:
           type: string
           description: "Email confirmation token"
           example: "77c799c70436ce52b23dd5f9a6ea55c7d3510074ea9b9693ecc1ea5a898aa1ebe45c3ec9758c1ee0c454dc2c7deaade4"
+    PermissionResult:
+      type: object
+      properties:
+        permissions:
+          type: array
+          items:
+            type: string
+          example:
+            - "generateQr"
+            - "allUsers"
+            - "addPermission"
+            - "removePermission"
+            - "deleteUser"
+            - "suspendUser"
+            - "chatCreate"
+            - "all"
     SuspendUserQuery:
       type: object
       properties:
