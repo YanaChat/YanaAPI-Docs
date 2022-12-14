@@ -45,6 +45,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+        '402':
+          description: "OTP Enabled, please specify 'otp' field"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /user/confirm-email:
     post:
       tags:
@@ -1107,6 +1113,10 @@ components:
         password:
           type: string
           example: 'password_here'
+        otp:
+          type: string
+          example: '501928'
+          description: 'OTP code (if enabled)'
     LoginSuccess:
       type: object
       properties:
