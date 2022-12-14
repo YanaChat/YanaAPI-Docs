@@ -188,7 +188,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/OtpReply'
         '400':
-          description: Bad token or unknown user
+          description: Bad code, invalid input or OTP already enabled
           content:
             application/json:
               schema:
@@ -211,7 +211,31 @@ paths:
         '200':
           description: Successful operation
         '400':
-          description: Bad token or invalid input
+          description: Bad code, invalid input or OTP already enabled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /user/delete-otp/{code}:
+    delete:
+      tags:
+        - User (Authenticated)
+      summary: Delete OTP with confirmation code
+      description: Delete OTP with confirmation code
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: code
+          schema:
+            type: string
+          required: true
+          description: OTP Code
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad code, invalid input or OTP already disabled
           content:
             application/json:
               schema:
