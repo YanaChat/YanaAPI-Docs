@@ -172,6 +172,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  /user/setup-otp:
+    post:
+      tags:
+        - User (Authenticated)
+      summary: Setup OTP
+      description: Setup OTP
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtpReply'
+        '400':
+          description: Bad token or unknown user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /user/confirm-otp:
+    post:
+      tags:
+        - User (Authenticated)
+      summary: Confirm OTP by code
+      description: Confirm OTP by code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfirmOtpQuery'
+        required: true
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad token or invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /user/{userId}:
     get:
       tags:
@@ -770,6 +814,24 @@ components:
           type: string
           description: "Email confirmation token"
           example: "77c799c70436ce52b23dd5f9a6ea55c7d3510074ea9b9693ecc1ea5a898aa1ebe45c3ec9758c1ee0c454dc2c7deaade4"
+    OtpReply:
+      type: object
+      properties:
+        qr:
+          type: string
+          description: "QrCode image in Base64 format"
+          example: "data:image/png;base64,iVXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX="
+        token:
+          type: string
+          description: "OTP Token"
+          example: "ERGEQGTUMICVESBW"
+    ConfirmOtpQuery:
+      type: object
+      properties:
+        code:
+          type: string
+          description: "OTP code"
+          example: "016110"
     PermissionResult:
       type: object
       properties:
