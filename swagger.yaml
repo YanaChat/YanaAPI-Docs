@@ -178,6 +178,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  /user/login-history:
+    get:
+      tags:
+        - User (Authenticated)
+      summary: Retrieves login history
+      description: Retrieves login history
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoginHistory'
+        '400':
+          description: Bad token or unknown user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /user/setup-otp:
     post:
       tags:
@@ -883,6 +906,86 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    LoginHistoryBrowser:
+      type: object
+      properties:
+        name:
+          description: "Name"
+          example: "Opera"
+        version:
+          description: "Version"
+          example: "93.0.0.0"
+        major:
+          description: "Major version"
+          example: "93"
+    LoginHistoryEngine:
+      type: object
+      properties:
+        engine:
+          description: "Engine"
+          example: "Blink"
+        version:
+          description: "Version"
+          example: "107.0.0.0"
+    LoginHistoryOperatingSystem:
+      type: object
+      properties:
+        name:
+          description: "Name"
+          example: "Windows"
+        version:
+          description: "Version"
+          example: "10"
+    LoginHistoryUserAgent:
+      type: object
+      properties:
+        ua:
+          description: "Raw User Agent"
+          example: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 OPR/93.0.0.0"
+        browser:
+          description: "Browser info"
+          $ref: '#/components/schemas/LoginHistoryBrowser'
+        engine:
+          description: "Engine info"
+          $ref: '#/components/schemas/LoginHistoryEngine'
+        os:
+          description: "Operating system info"
+          $ref: '#/components/schemas/LoginHistoryOperatingSystem'
+    LoginHistory:
+      type: object
+      properties:
+        date:
+          description: "Date of login"
+          example: "2022-12-15T10:16:19.035Z"
+        ip:
+          description: "IP address"
+          example: "127.0.0.1"
+        isp:
+          description: "ISP of IP"
+          example: "Ionis Group - Ionis Schools of Technology and Management SAS"
+        organization:
+          description: "Organization of IP"
+          example: "Ionis"
+        country:
+          description: "Country of IP"
+          example: "France"
+        countryCode:
+          description: "Country code of IP"
+          example: "FR"
+        region:
+          description: "Region of IP"
+          example: "IDF"
+        regionName:
+          description: "Region name of IP"
+          example: "Île-de-France"
+        city:
+          description: "City of IP"
+          example: "Paris"
+        zip:
+          description: "ZIP code of IP"
+          example: "75000"
+        ua:
+          $ref: '#/components/schemas/LoginHistoryUserAgent'
     confirm-email-query:
       type: object
       properties:
