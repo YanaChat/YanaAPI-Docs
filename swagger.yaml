@@ -899,6 +899,33 @@ paths:
           description: Unknown chat ID specified
         '500':
           description: Unable to generate token (internal server error)
+  /adm/generate-code/email:
+    post:
+      tags:
+        - Admin
+      summary: Send email for a new patient with default access to text channels
+      description: Send email for a new patient with default access to text channels
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateCodeEmailRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Input format error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '404':
+          description: Unknown chat ID specified
+        '500':
+          description: Unable to generate token (internal server error)
 components:
   securitySchemes:
     bearerAuth:
@@ -1154,6 +1181,18 @@ components:
           type: string
           description: "Biography of account user"
           example: "I just joined. This is my example bio!"
+    GenerateCodeEmailRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "example@example.com"
+          description: "Email address for the invite"
+        chat_ids:
+          type: array
+          items:
+            type: string
+            example: "6390834cdaeda0edab3649ad"
     GenerateQRRequest:
       type: object
       properties:
